@@ -3,22 +3,23 @@
 
 #include "../interfaces/DoubleLinkedList.h"
 #include "../interfaces/List.h"
+#include <string>
 
 using namespace std;
 
-enum CardName{
-    APPLE = '🍎',
-    UNIVERSITY = '🎓',
-    STAR = '⭐',
-    CLOCK = '⏰',
-    SKULL = '💀',
-    BOOKS = '📚',
-    GAMING = '🎮',
-    DADO = '🎲',
-    KEY = '🔑',
-    RAIO = '⚡',
-    QUEBRA = '💥',
-    PROIBIDO = '🚫'
+enum CardName : unsigned char {
+    APPLE = 0,
+    UNIVERSITY = 1,
+    STAR = 2,
+    CLOCK = 3,
+    SKULL = 4,
+    BOOKS = 5,
+    GAMING = 6,
+    DADO = 7,
+    KEY = 8,
+    RAIO = 9,
+    QUEBRA = 10,
+    PROIBIDO = 11
 };
 
 enum Type{
@@ -32,21 +33,21 @@ enum State{
     OCULTA
 };
 
-struct Card{
+struct Card {
     CardName name;
     short identificador;
-    State state = State::OCULTA;
+    State state;
     Type type;
     int parIdentificador;
 };
 
-struct Player{
+struct Player {
     unsigned points;
     List<Card, 2> cards;
     string name;
 };
 
-struct Inventory : public DoublyLinkedList<Type>{
+struct Inventory : public DoublyLinkedList<Type> {
     int duration;
 };
 
@@ -77,9 +78,5 @@ List<Card, 20> createCardsList() {
     };
     return of<Card, 20>(arr, 20);
 }
-
-struct Cards{
-    List<Card, 20> _ = createCardsList();
-};
 
 #endif

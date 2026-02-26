@@ -2,7 +2,6 @@
 #define DOUBLE_LINKED_LIST_H
 
 #include <iostream>
-#include <stdexcept>
 using namespace std;
 
 template <typename T>

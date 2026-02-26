@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <iostream>
+#include <string>
 #include "Game.h"
 using namespace std;
 
@@ -39,10 +40,9 @@ void initKeyboard(KeyboardState& kb, int min_val, int max_val, int start_val, in
     }
 }
 
-void drawConsole(const KeyboardState& kb, const char* visual_map) {
+void drawConsole(const KeyboardState& kb, const Tabuleiro& visual_map, const string& statusMessage = "") {
     system("cls");
-
-    cout << visual_map << "\n";
+    cout << generateMapEmoji(visual_map, 5) << "\n";
 
     int total_visual_columns = kb.visual_offset + ((kb.max_pos - kb.min_pos) * kb.visual_stride) + 2; 
 
@@ -58,15 +58,17 @@ void drawConsole(const KeyboardState& kb, const char* visual_map) {
     }
     cout << "^\n";
     
-    cout << "\n[Debug] Posicao Logica Atual (Retorno): " << kb.position << "\n";
+    cout << "\nIndice atual: " << kb.position << "\n";
+    if (!statusMessage.empty()) {
+        cout << statusMessage << "\n";
+    }
 }
 
-
-int runInteractiveMenu(KeyboardState& kb, const char* visual_map) {
+int runInteractiveMenu(KeyboardState& kb, const Tabuleiro& visual_map, const string& statusMessage = "") {
     bool running = true;
-    char key;
+    int key; 
 
-    drawConsole(kb, visual_map);
+    drawConsole(kb, visual_map, statusMessage);
 
     while (running) {
         key = _getch();
@@ -74,13 +76,13 @@ int runInteractiveMenu(KeyboardState& kb, const char* visual_map) {
         if (key == 'a' || key == 'A') {
             if (kb.position > kb.min_pos) {
                 kb.position--;
-                drawConsole(kb, visual_map);
+                drawConsole(kb, visual_map, statusMessage);
             }
         } 
         else if (key == 'd' || key == 'D') {
             if (kb.position < kb.max_pos) {
                 kb.position++;
-                drawConsole(kb, visual_map);
+                drawConsole(kb, visual_map, statusMessage);
             }
         } 
         else if (key == '\r') {

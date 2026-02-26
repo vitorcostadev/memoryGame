@@ -5,6 +5,7 @@
 #include "../models/Models.h"
 #include "List.h"
 #include "DoubleLinkedList.h"
+#include <string>
 
 using namespace std;
 
@@ -20,9 +21,10 @@ void alterarEstado(Card &card){
 
 void createTabuleiro(Tabuleiro &tab){
     create(tab);
-    Cards cards;
-    for(int i = 0; i < size(cards._); i++){
-        add(tab, get(cards._, i));
+    
+    List<Card, 20> cardList = createCardsList();
+    for(int i = 0; i < size(cardList); i++){
+        add(tab, get(cardList, i));
     }
 }
 
@@ -45,6 +47,13 @@ void generateCards(Game &game){
     createTabuleiro(game.cards);
 }
 
+void isPair(Card &card1, Card &card2){
+    if(card1.parIdentificador == card2.parIdentificador){
+        alterarEstado(card1);
+        alterarEstado(card2);
+    }
+}
+
 string getEmoji(CardName name){
     switch(name){
         case APPLE: return "\xF0\x9F\x8D\x8E";      
@@ -63,15 +72,19 @@ string getEmoji(CardName name){
     }
 }
 
-string generateMapEmoji(Game game) {
-    /*
-    
-    */
+string generateMapEmoji(const Tabuleiro &tab, int cols = 5){
     string emojiMap;
-
-    Nodo<Card>* current = game.cards.start;
+    Nodo<Card>* current = tab.start;
+    int idx = 0;
     while(current != NULL){
-        emojiMap += getEmoji(current->element.name) + " ";
+        if(current->element.state == State::OCULTA){
+            emojiMap += "?";
+        } else {
+            emojiMap += getEmoji(current->element.name);
+        }
+        idx++;
+        if(idx % cols == 0) emojiMap += "\n";
+        else emojiMap += " ";
         current = current->next;
     }
     return emojiMap;

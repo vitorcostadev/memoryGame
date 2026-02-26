@@ -1,6 +1,7 @@
 #ifndef LinkedHashMap_H
 #define LinkedHashMap_H
 
+#include <iostream>
 using namespace std;
 
 template<typename K, typename V>

@@ -1,6 +1,7 @@
 #ifndef List_H
 #define List_H
 
+#include <iostream>
 using namespace std;
 
 template<typename T, int MAX>
