@@ -32,4 +32,21 @@ void createTabuleiro(Tabuleiro &tab){
         add(tab, get(cards._, i));
     }
 }
+
+void createInventory(Inventory &inv){
+    if(inv.size > 0) destroy(inv);
+    create(inv);
+}
+
+void addToInventory(Inventory &inv, int duration, Type type){
+    inv.duration = duration;
+    add(inv, type);
+}
+
+void setPlayers(Game &game, Player player, Player playerTwo){
+    game.playerOne = player;
+    game.playerTwo = playerTwo;
+}
+
+
 #endif 

@@ -49,11 +49,11 @@ inline ostream& operator<<(ostream& os, const Card& card) {
 struct Player{
     unsigned points;
     List<Card, 2> cards;
+    string name;
 };
 
 struct Inventory : public DoublyLinkedList<Type>{
-    Type type;
-    short duration;
+    int duration;
 };
 
 typedef DoublyLinkedList<Card> Tabuleiro;
