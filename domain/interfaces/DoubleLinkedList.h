@@ -102,6 +102,32 @@ void removeFirst(DoublyLinkedList<T>& list) {
 }
 
 template <typename T>
+void remove(DoublyLinkedList<T>& list, int index) {
+    if (index < 0 || index >= list.size) {
+        throw "INDEX_NOT_FOUND";
+    }
+    if (index == 0) {
+        removeFirst(list);
+        return;
+    }
+    Nodo<T>* aux = list.start;
+    for (int i = 0; i < index; i++) {
+        aux = aux->next;
+    }
+    if (aux->previous != NULL) {
+        aux->previous->next = aux->next;
+    }
+    if (aux->next != NULL) {
+        aux->next->previous = aux->previous;
+    }
+    if (aux == list.end) {
+        list.end = aux->previous;
+    }
+    delete aux;
+    list.size--;
+}
+
+template <typename T>
 void destroy(DoublyLinkedList<T>& list) {
     while (list.start != NULL) {
         removeFirst(list);

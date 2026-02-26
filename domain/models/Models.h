@@ -7,18 +7,18 @@
 using namespace std;
 
 enum CardName{
-    APPLE,
-    UNIVERSITY,
-    STAR,
-    CLOCK,
-    SKULL,
-    BOOKS,
-    GAMING,
-    DADO,
-    KEY,
-    RAIO,
-    QUEBRA,
-    PROIBIDO
+    APPLE = '🍎',
+    UNIVERSITY = '🎓',
+    STAR = '⭐',
+    CLOCK = '⏰',
+    SKULL = '💀',
+    BOOKS = '📚',
+    GAMING = '🎮',
+    DADO = '🎲',
+    KEY = '🔑',
+    RAIO = '⚡',
+    QUEBRA = '💥',
+    PROIBIDO = '🚫'
 };
 
 enum Type{
@@ -37,14 +37,8 @@ struct Card{
     short identificador;
     State state = State::OCULTA;
     Type type;
+    int parIdentificador;
 };
-
-inline ostream& operator<<(ostream& os, const Card& card) {
-    os << "Card{id=" << card.identificador
-       << ", state=" << (card.state == State::OCULTA ? "OCULTA" : "REVELADA")
-       << "}";
-    return os;
-}
 
 struct Player{
     unsigned points;
@@ -58,28 +52,28 @@ struct Inventory : public DoublyLinkedList<Type>{
 
 typedef DoublyLinkedList<Card> Tabuleiro;
 
-inline List<Card, 20> createCardsList() {
+List<Card, 20> createCardsList() {
     Card arr[20] = {
-        {CardName::APPLE, 1, State::OCULTA, Type::NORMAL},
-        {CardName::UNIVERSITY, 2, State::OCULTA, Type::NORMAL},
-        {CardName::STAR, 3, State::OCULTA, Type::BONUS},
-        {CardName::CLOCK, 4, State::OCULTA, Type::NORMAL},
-        {CardName::SKULL, 5, State::OCULTA, Type::PENALIDADE},
-        {CardName::BOOKS, 6, State::OCULTA, Type::NORMAL},
-        {CardName::APPLE, 7, State::OCULTA, Type::NORMAL},
-        {CardName::GAMING, 8, State::OCULTA, Type::NORMAL},
-        {CardName::DADO, 9, State::OCULTA, Type::NORMAL},
-        {CardName::UNIVERSITY, 10, State::OCULTA, Type::NORMAL},
-        {CardName::KEY, 11, State::OCULTA, Type::NORMAL},
-        {CardName::CLOCK, 12, State::OCULTA, Type::NORMAL},
-        {CardName::RAIO, 13, State::OCULTA, Type::BONUS},
-        {CardName::BOOKS, 14, State::OCULTA, Type::NORMAL},
-        {CardName::GAMING, 15, State::OCULTA, Type::NORMAL},
-        {CardName::DADO, 16, State::OCULTA, Type::NORMAL},
-        {CardName::KEY, 17, State::OCULTA, Type::NORMAL},
-        {CardName::QUEBRA, 18, State::OCULTA, Type::NORMAL},
-        {CardName::PROIBIDO, 19, State::OCULTA, Type::PENALIDADE},
-        {CardName::QUEBRA, 20, State::OCULTA, Type::NORMAL}
+        {CardName::APPLE, 1, State::OCULTA, Type::NORMAL, 7},
+        {CardName::UNIVERSITY, 2, State::OCULTA, Type::NORMAL, 10},
+        {CardName::STAR, 3, State::OCULTA, Type::BONUS, 13},
+        {CardName::CLOCK, 4, State::OCULTA, Type::NORMAL, 12},
+        {CardName::SKULL, 5, State::OCULTA, Type::PENALIDADE, 19},
+        {CardName::BOOKS, 6, State::OCULTA, Type::NORMAL, 14},
+        {CardName::APPLE, 7, State::OCULTA, Type::NORMAL, 1},
+        {CardName::GAMING, 8, State::OCULTA, Type::NORMAL, 15},
+        {CardName::DADO, 9, State::OCULTA, Type::NORMAL, 16},
+        {CardName::UNIVERSITY, 10, State::OCULTA, Type::NORMAL, 2},
+        {CardName::KEY, 11, State::OCULTA, Type::NORMAL, 17},
+        {CardName::CLOCK, 12, State::OCULTA, Type::NORMAL, 4},
+        {CardName::RAIO, 13, State::OCULTA, Type::BONUS, 3},
+        {CardName::BOOKS, 14, State::OCULTA, Type::NORMAL, 6},
+        {CardName::GAMING, 15, State::OCULTA, Type::NORMAL, 8},
+        {CardName::DADO, 16, State::OCULTA, Type::NORMAL, 9},
+        {CardName::KEY, 17, State::OCULTA, Type::NORMAL, 11},
+        {CardName::QUEBRA, 18, State::OCULTA, Type::NORMAL, 20},
+        {CardName::PROIBIDO, 19, State::OCULTA, Type::PENALIDADE, 1},
+        {CardName::QUEBRA, 20, State::OCULTA, Type::NORMAL, 18}
     };
     return of<Card, 20>(arr, 20);
 }
