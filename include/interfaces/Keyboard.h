@@ -8,14 +8,6 @@
 #include "Game.h"
 using namespace std;
 
-/*
-O objetivo desta interface é criar um menu interativo utilizando as teclas A e D
-para navegar entre as opções e a tecla Enter para selecionar a opção desejada.
-
-No jogo da memória, o jogador irá escolher duas cartas para tentar encontrar um par
-então este foi feito para facilitar a escolha das cartas, pois ao apertar <ENTER>
-a subrotina irá retornar a posição da carta selecionada, que pode ser usada para revelar a carta.
-*/
 
 struct KeyboardState {
     int position;       
@@ -25,7 +17,14 @@ struct KeyboardState {
     int visual_offset;  
 };
 
-void initKeyboard(KeyboardState& kb, int min_val, int max_val, int start_val, int stride, int offset) {
+void initKeyboard(
+    KeyboardState& kb, 
+    int min_val, 
+    int max_val, 
+    int start_val, 
+    int stride, 
+    int offset) {
+
     kb.min_pos = min_val;
     kb.max_pos = max_val;
     kb.position = start_val;
@@ -40,7 +39,11 @@ void initKeyboard(KeyboardState& kb, int min_val, int max_val, int start_val, in
     }
 }
 
-void drawConsole(const KeyboardState& kb, const Tabuleiro& visual_map, const string& statusMessage = "") {
+void drawConsole(
+    const KeyboardState& kb, 
+    const Tabuleiro& visual_map, 
+    const string& statusMessage = ""
+    ) {
     system("cls");
     cout << generateMapEmoji(visual_map, 5) << "\n";
 
@@ -64,7 +67,11 @@ void drawConsole(const KeyboardState& kb, const Tabuleiro& visual_map, const str
     }
 }
 
-int runInteractiveMenu(KeyboardState& kb, const Tabuleiro& visual_map, const string& statusMessage = "") {
+int runInteractiveMenu(
+    KeyboardState &kb, 
+    const Tabuleiro &visual_map, 
+    const string &statusMessage = ""
+    ) {
     bool running = true;
     int key; 
 

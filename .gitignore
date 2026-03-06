@@ -1,6 +1,10 @@
-/.vscode
+.vscode/
 *.csv
-/build
-/**/build
-/**.exe
-/**.o
+build/
+**/build/
+*.exe
+*.o
+*.a
+*.out
+*.depend
+*.layout
