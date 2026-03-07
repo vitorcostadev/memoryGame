@@ -46,14 +46,6 @@ Card arr[20] = {
     {CardName::QUEBRA, 20, State::OCULTA, Type::NORMAL, 18}
 };
 
-void alternateState(Card &card){
-    if(card.state == State::OCULTA){
-        card.state = State::VIRADA;
-    } else {
-        card.state = State::OCULTA;
-    }
-}
-
 void createTabuleiro(Tabuleiro &tab){
     create(tab);
 

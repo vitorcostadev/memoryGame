@@ -3,6 +3,7 @@
 #define CARDS_COUNT 20
 #define MAX_ROUNDS 30
 
+#include <iostream>
 #include <string>
 #include "DoubleLinkedList.h"
 #include "../models/Card.h"
@@ -58,6 +59,10 @@ bool isPair(Card c1, Card c2) {
 
 void start(Game &game) {
     game.rodadas = 0;
+    game.playerOne.points = 0;
+    game.playerTwo.points = 0;
+    create(game.playerOne.effectInv.effects);
+    create(game.playerTwo.effectInv.effects);
     createTabuleiro(game.cards);
 }
 
@@ -131,14 +136,13 @@ void applyEffect(Player &player, EffectDef eff){
 bool processEffects(Player &player) {
     bool canPlay = true;
     int i = 0;
+    Node<ActiveEffect>* node = player.effectInv.effects.start;
 
-    while(i < player.effectInv.effects.cardinalidade) {
-        Node<ActiveEffect>* node = player.effectInv.effects.start;
-        for(int k = 0; k < i; k++) node = node->next;
+    while(node != NULL) {
+        Node<ActiveEffect>* next = node->next;
 
-        if(node->element.definition.type == EFFECT_SKIP_TURN) {
+        if(node->element.definition.type == EFFECT_SKIP_TURN)
             canPlay = false;
-        }
 
         node->element.rmDuration--;
 
@@ -149,6 +153,8 @@ bool processEffects(Player &player) {
         } else {
             i++;
         }
+
+        node = next;
     }
 
     return canPlay;

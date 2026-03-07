@@ -73,7 +73,7 @@ int runInteractiveMenu(
     const string &statusMessage = ""
     ) {
     bool running = true;
-    int key; 
+    int key = 0;
 
     drawConsole(kb, visual_map, statusMessage);
 

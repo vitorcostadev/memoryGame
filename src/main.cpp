@@ -26,12 +26,7 @@ int main() {
     start(game);
 
     game.playerOne.name = getPlayerName(1);
-    game.playerOne.points = 0;
-    create(game.playerOne.effectInv.effects);
-
     game.playerTwo.name = getPlayerName(2);
-    game.playerTwo.points = 0;
-    create(game.playerTwo.effectInv.effects);
 
     initKeyboard(keyboardState, 0, size(game.cards) - 1, 0, 2, 2);
 
@@ -42,7 +37,6 @@ int main() {
     cin.get();
 
     int playerAtual = 1;
-    int cartasEncontradas = 0;
     bool roundLimitReached = false;
 
     while(size(game.cards) > 0) {
@@ -116,7 +110,6 @@ int main() {
             cout << "PAR ENCONTRADO!\n";
 
             playerAtual == 1 ? game.playerOne.points += 10 : game.playerTwo.points += 10;
-            cartasEncontradas += 2;
 
             if(pos1 > pos2) {
                 remove(game.cards, pos1);
@@ -202,6 +195,10 @@ int main() {
 
     cout << "\nPressione uma tecla para sair...\n";
     cin.get();
+
+    destroy(game.cards);
+    destroy(game.playerOne.effectInv.effects);
+    destroy(game.playerTwo.effectInv.effects);
 
     return 0;
 }

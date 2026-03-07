@@ -18,7 +18,8 @@ struct DoublyLinkedList {
 
 template <typename T>
 void create(DoublyLinkedList<T> &list){
-    list.start = NULL ; list.end = NULL;
+    list.start = NULL;
+    list.end = NULL;
     list.cardinalidade = 0;
 }
 

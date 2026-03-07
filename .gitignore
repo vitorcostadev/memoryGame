@@ -8,4 +8,3 @@ build/
 *.out
 *.depend
 *.layout
-*.cbp
