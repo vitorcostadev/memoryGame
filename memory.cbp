@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+    <FileVersion major="1" minor="6" />
+    <Project>
+        <Option title="memory" />
+        <Option pch_mode="2" />
+        <Option compiler="gcc" />
+        <Build>
+            <Target title="Debug">
+                <Option output="src/build/Debug/outDebug" prefix_auto="1" extension_auto="1" />
+                <Option object_output="src/build/Debug/" />
+                <Option type="1" />
+                <Option compiler="gcc" />
+                <Compiler>
+                    <Add option="-Wall" />
+                    <Add option="-Wextra" />
+                    <Add option="-Wpedantic" />
+                    <Add option="-Wshadow" />
+                    <Add option="-Wformat=2" />
+                    <Add option="-Wcast-align" />
+                    <Add option="-Wconversion" />
+                    <Add option="-Wsign-conversion" />
+                    <Add option="-Wnull-dereference" />
+                    <Add option="-g3" />
+                    <Add option="-O0" />
+                    <Add directory="include" />
+                </Compiler>
+                <Linker>
+                    <Add option="-static-libgcc" />
+                    <Add option="-static-libstdc++" />
+                </Linker>
+            </Target>
+            <Target title="Release">
+                <Option output="src/build/Release/memory" prefix_auto="1" extension_auto="1" />
+                <Option object_output="src/build/Release/" />
+                <Option type="1" />
+                <Option compiler="gcc" />
+                <Compiler>
+                    <Add option="-Wall" />
+                    <Add option="-Wextra" />
+                    <Add option="-O2" />
+                    <Add directory="include" />
+                </Compiler>
+                <Linker>
+                    <Add option="-static-libgcc" />
+                    <Add option="-static-libstdc++" />
+                </Linker>
+            </Target>
+        </Build>
+        <Compiler>
+            <Add option="-std=c++17" />
+        </Compiler>
+        <Unit filename="src/main.cpp">
+            <Option compilerVar="CPP" />
+        </Unit>
+        <Unit filename="include/interfaces/DoubleLinkedList.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Unit filename="include/interfaces/Game.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Unit filename="include/interfaces/Keyboard.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Unit filename="include/interfaces/List.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Unit filename="include/models/Card.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Unit filename="include/models/Effect.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Unit filename="include/models/Enums.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Unit filename="include/models/Player.h">
+            <Option compile="0" />
+            <Option link="0" />
+        </Unit>
+        <Extensions>
+            <code_completion />
+            <envvars />
+            <debugger />
+            <lib_finder disable_auto="1" />
+        </Extensions>
+    </Project>
+</CodeBlocks_project_file>

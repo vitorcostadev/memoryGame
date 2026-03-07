@@ -4,7 +4,6 @@
 #define MAX_ROUNDS 30
 
 #include <string>
-#include "List.h"
 #include "DoubleLinkedList.h"
 #include "../models/Card.h"
 #include "../models/Player.h"
