@@ -8,7 +8,8 @@ using namespace std;
 
 enum EffectType{
     EFFECT_EXTRA_TURN,
-    EFFECT_SKIP_TURN
+    EFFECT_SKIP_TURN,
+    EFFECT_REMOVE_PENALTY
 };
 
 struct EffectDef{

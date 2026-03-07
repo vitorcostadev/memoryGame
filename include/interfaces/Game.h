@@ -1,6 +1,7 @@
 #ifndef Game_H
 #define Game_H 
 #define CARDS_COUNT 20
+#define MAX_ROUNDS 30
 
 #include <string>
 #include "List.h"
@@ -57,6 +58,7 @@ bool isPair(Card c1, Card c2) {
 }
 
 void start(Game &game) {
+    game.rodadas = 0;
     createTabuleiro(game.cards);
 }
 
@@ -67,7 +69,25 @@ EffectDef createEffect(Card card){
             effect.type = EFFECT_SKIP_TURN;
             effect.duration = 1;
             effect.name = "Bloqueio de jogada";
-            effect.description = "A próxima rodada do player é ignorada.";
+            effect.description = "A proxima rodada do jogador é ignorada.";
+            break;
+        case CardName::SKULL:
+            effect.type = EFFECT_SKIP_TURN;
+            effect.duration = 1;
+            effect.name = "Paralisia";
+            effect.description = "A proxima rodada do jogador é bloqueada.";
+            break;
+        case CardName::STAR:
+            effect.type = EFFECT_EXTRA_TURN;
+            effect.duration = 1;
+            effect.name = "Jogada extra";
+            effect.description = "Jogador ganha mais uma jogada.";
+            break;
+        case CardName::RAIO:
+            effect.type = EFFECT_REMOVE_PENALTY;
+            effect.duration = 0;
+            effect.name = "Remocao de penalidade";
+            effect.description = "Remove uma penalidade ativa do inventario.";
             break;
         default:
             effect.type = EFFECT_EXTRA_TURN;
@@ -79,7 +99,28 @@ EffectDef createEffect(Card card){
     return effect;
 }
 
+void removeFirstPenalty(Player &player) {
+    Node<ActiveEffect>* current = player.effectInv.effects.start;
+    int index = 0;
+    while(current != NULL) {
+        if(current->element.definition.type == EFFECT_SKIP_TURN) {
+            cout << player.name << ": penalidade removida por bônus: "
+                 << current->element.definition.name << "\n";
+            remove(player.effectInv.effects, index);
+            return;
+        }
+        current = current->next;
+        index++;
+    }
+    cout << player.name << ": nenhuma penalidade ativa para remover.\n";
+}
+
 void applyEffect(Player &player, EffectDef eff){
+    if(eff.type == EFFECT_REMOVE_PENALTY) {
+        removeFirstPenalty(player);
+        return;
+    }
+    if(eff.name.empty()) return;
     ActiveEffect active;
     active.definition = eff;
     active.rmDuration = eff.duration;
@@ -90,30 +131,27 @@ void applyEffect(Player &player, EffectDef eff){
 
 bool processEffects(Player &player) {
     bool canPlay = true;
-    Node<ActiveEffect>* current = player.effectInv.effects.start;
-    int index = 0;
-    
-    while(current != NULL) {
-        if(current->element.definition.type == EFFECT_SKIP_TURN) {
+    int i = 0;
+
+    while(i < player.effectInv.effects.cardinalidade) {
+        Node<ActiveEffect>* node = player.effectInv.effects.start;
+        for(int k = 0; k < i; k++) node = node->next;
+
+        if(node->element.definition.type == EFFECT_SKIP_TURN) {
             canPlay = false;
         }
 
-        current->element.rmDuration--;
-        
-        if(current->element.rmDuration <= 0) {
-            cout << player.name << " perdeu o efeito: " 
-                 << current->element.definition.name << "\n";
-            
-            remove(player.effectInv.effects, index);
-            current = (index < player.effectInv.effects.cardinalidade) 
-                      ? player.effectInv.effects.start 
-                      : NULL;
+        node->element.rmDuration--;
+
+        if(node->element.rmDuration <= 0) {
+            cout << player.name << ": efeito expirou: "
+                 << node->element.definition.name << "\n";
+            remove(player.effectInv.effects, i);
         } else {
-            current = current->next;
-            index++;
+            i++;
         }
     }
-    
+
     return canPlay;
 }
 

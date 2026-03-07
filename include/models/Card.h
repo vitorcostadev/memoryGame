@@ -3,6 +3,8 @@
 #include "Enums.h"
 #include "../interfaces/DoubleLinkedList.h"
 #include "Effect.h"
+#include <cstdlib>
+#include <ctime>
 
 
 struct Card {
@@ -55,8 +57,19 @@ void alternateState(Card &card){
 void createTabuleiro(Tabuleiro &tab){
     create(tab);
 
+    Card deck[CARDS_COUNT];
+    for(int i = 0; i < CARDS_COUNT; i++) deck[i] = arr[i];
+
+    srand((unsigned int)time(NULL));
+    for(int i = CARDS_COUNT - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        Card temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
+    }
+
     for(int i = 0; i < CARDS_COUNT; i++){
-        Node<Card>* newNode = new Node<Card>{arr[i], NULL, NULL};
+        Node<Card>* newNode = new Node<Card>{deck[i], NULL, NULL};
         if(tab.start == NULL){
             tab.start = newNode;
             tab.end = newNode;
