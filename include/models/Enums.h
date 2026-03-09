@@ -23,7 +23,12 @@ enum CardName : unsigned char {
     KEY = 8,
     RAIO = 9,
     QUEBRA = 10,
-    PROIBIDO = 11
+    PROIBIDO = 11,
+    MOON = 12,
+    MUSIC = 13,
+    HEART = 14,
+    CROWN = 15,
+    FISH = 16
 };
 
 enum Type{

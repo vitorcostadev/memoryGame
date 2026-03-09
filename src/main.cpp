@@ -78,13 +78,14 @@ int main() {
 
         string status = string("Rodada ") + to_string(game.rodadas) + "/" + to_string(MAX_ROUNDS)
                        + " | Vez de: " + jogadorAtual->name
-                       + " | " + game.playerOne.name + ": " + to_string(game.playerOne.points)
-                       + " - " + game.playerTwo.name + ": " + to_string(game.playerTwo.points);
+                       + " | " + getPlayerName(game.playerOne) + ": " + to_string(game.playerOne.points)
+                       + " - " + getPlayerName(game.playerTwo) + ": " + to_string(game.playerTwo.points)
+                       + " | " + "Utilize A/D para mover o cursor e Enter para selecionar as cartas.";
 
         drawConsole(keyboardState, game.cards, status);
 
         if(!canPlay) {
-            cout << jogadorAtual->name << " não pode jogar neste turno!\n";
+            cout << getPlayerName(*jogadorAtual) << " não pode jogar neste turno!\n";
             cout << "Pressione uma tecla para continuar...\n";
             cin.get();
             playerAtual = (playerAtual == 1) ? 2 : 1;
@@ -129,13 +130,14 @@ int main() {
             }
         } while(node2 == NULL || pos2 == pos1);
 
-        node2->element.state = State::VIRADA;
+        setCardState(node2->element, State::VIRADA);
         drawConsole(keyboardState, game.cards, status);
 
         if(isPair(node1->element, node2->element)) {
             cout << "PAR ENCONTRADO!\n";
 
-            playerAtual == 1 ? addPoints(game.playerOne, 10) : addPoints(game.playerTwo, 10);
+            playerAtual == 1 ? addPoints(game.playerOne, 10) : 
+            addPoints(game.playerTwo, 10);
 
             if(pos1 > pos2) {
                 remove(game.cards, pos1);
@@ -168,8 +170,12 @@ int main() {
                 card1Removed = true;
             }
 
-            if(node2->element.type == Type::BONUS || node2->element.type == Type::PENALIDADE) {
+            if(getCardType(node2->element) == Type::BONUS || 
+                getCardType(node2->element) == Type::PENALIDADE
+            ) {
+
                 EffectDef effect = createEffect(node2->element);
+
                 if(!effect.name.empty())
                     cout << "Efeito ativado: " << effect.name << endl;
                 applyEffect(*jogadorAtual, effect);
@@ -208,8 +214,8 @@ int main() {
     }
 
     cout << "Resultado Final:\n";
-    cout << game.playerOne.name << ": " << getPlayerPoints(game.playerOne) << " pontos\n";
-    cout << game.playerTwo.name << ": " << getPlayerPoints(game.playerTwo) << " pontos\n\n";
+    cout << getPlayerName(game.playerOne) << ": " << getPlayerPoints(game.playerOne) << " pontos\n";
+    cout << getPlayerName(game.playerTwo) << ": " << getPlayerPoints(game.playerTwo) << " pontos\n\n";
 
     if(getPlayerPoints(game.playerOne) > getPlayerPoints(game.playerTwo)) {
         cout << "Vencedor: " << getPlayerName(game.playerOne) << "!\n";

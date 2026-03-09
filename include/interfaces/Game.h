@@ -21,7 +21,7 @@ retorna seu índice, ou -1 se não encontrado.
 */
 #ifndef Game_H
 #define Game_H
-#define CARDS_COUNT 20
+#define CARDS_COUNT 30
 #define MAX_ROUNDS 30
 
 #include <iostream>
@@ -37,26 +37,30 @@ struct Game{
 };
 
 
+struct CardEmojis {
+    string table[17] = {
+        "\xF0\x9F\x8D\x8E", 
+        "\xF0\x9F\x8F\xAB", 
+        "\xE2\xAD\x90",     
+        "\xE2\x8F\xB0",    
+        "\xF0\x9F\x92\x80",
+        "\xF0\x9F\x93\x9A", 
+        "\xF0\x9F\x8E\xAE", 
+        "\xF0\x9F\x8E\xB2", 
+        "\xF0\x9F\x94\x91", 
+        "\xE2\x9A\xA1",     
+        "\xF0\x9F\x92\xA5", 
+        "\xF0\x9F\x9A\xAB",
+        "\xF0\x9F\x8C\x99", 
+        "\xF0\x9F\x8E\xB5",
+        "\xE2\x9D\xA4",     
+        "\xF0\x9F\x91\x91", 
+        "\xF0\x9F\x90\x9F" 
+    };
+} cardEmojis;
+
 string getEmoji(CardName name){
-    /*
-    Retorna o emoji baseado no
-    nome da carta.
-    */
-    switch(name){
-        case APPLE: return "\xF0\x9F\x8D\x8E";
-        case UNIVERSITY: return "\xF0\x9F\x8F\xAB";
-        case STAR: return "\xE2\xAD\x90";
-        case CLOCK: return "\xE2\x8F\xB0";
-        case SKULL: return "\xF0\x9F\x92\x80";
-        case BOOKS: return "\xF0\x9F\x93\x9A";
-        case GAMING: return "\xF0\x9F\x8E\xAE";
-        case DADO: return "\xF0\x9F\x8E\xB2";
-        case KEY: return "\xF0\x9F\x94\x91";
-        case RAIO: return "\xE2\x9A\xA1";
-        case QUEBRA: return "\xF0\x9F\x92\xA5";
-        case PROIBIDO: return "\xF0\x9F\x9A\xAB";
-        default: return "?";
-    }
+    return cardEmojis.table[(int)name];
 }
 
 string generateMapEmoji(const Tabuleiro &tab, int cols = 5){

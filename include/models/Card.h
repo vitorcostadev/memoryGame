@@ -35,7 +35,7 @@ struct Inventory {
 typedef DoublyLinkedList<Card> Tabuleiro;
 
 
-Card arr[20] = {
+Card arr[30] = {
     {CardName::APPLE, 1, State::OCULTA, Type::NORMAL, 7},
     {CardName::UNIVERSITY, 2, State::OCULTA, Type::NORMAL, 10},
     {CardName::STAR, 3, State::OCULTA, Type::BONUS, 13},
@@ -55,7 +55,17 @@ Card arr[20] = {
     {CardName::KEY, 17, State::OCULTA, Type::NORMAL, 11},
     {CardName::QUEBRA, 18, State::OCULTA, Type::NORMAL, 20},
     {CardName::PROIBIDO, 19, State::OCULTA, Type::PENALIDADE, 5},
-    {CardName::QUEBRA, 20, State::OCULTA, Type::NORMAL, 18}
+    {CardName::QUEBRA, 20, State::OCULTA, Type::NORMAL, 18},
+    {CardName::MOON, 21, State::OCULTA, Type::NORMAL, 22},
+    {CardName::MOON, 22, State::OCULTA, Type::NORMAL, 21},
+    {CardName::MUSIC, 23, State::OCULTA, Type::NORMAL, 24},
+    {CardName::MUSIC, 24, State::OCULTA, Type::NORMAL, 23},
+    {CardName::HEART, 25, State::OCULTA, Type::NORMAL, 26},
+    {CardName::HEART, 26, State::OCULTA, Type::NORMAL, 25},
+    {CardName::CROWN, 27, State::OCULTA, Type::NORMAL, 28},
+    {CardName::CROWN, 28, State::OCULTA, Type::NORMAL, 27},
+    {CardName::FISH, 29, State::OCULTA, Type::NORMAL, 30},
+    {CardName::FISH, 30, State::OCULTA, Type::NORMAL, 29}
 };
 
 void createTabuleiro(Tabuleiro &tab){
