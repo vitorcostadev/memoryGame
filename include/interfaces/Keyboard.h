@@ -1,3 +1,25 @@
+/*
+Keyboard_H
+
+Nesta header, definimos toda a lógica que controla os movimentos
+do teclado que o usuário irá usar para navegar pelo menu de seleção de cartas.
+
+a struct KeyboardState é a estrutura que armazena o estado atual do teclado, incluindo a posição atual, 
+os limites mínimo e máximo, o espaçamento visual entre as opções e o deslocamento visual para 
+centralizar o cursor.
+
+A função initKeyboard é responsável por inicializar o estado do teclado com os valores fornecidos,
+garantindo que a posição inicial esteja dentro dos limites definidos.
+
+A função drawConsole é responsável por desenhar a interface do console, incluindo o mapa visual das 
+cartas, uma linha de pontos para separar o mapa do cursor, o cursor em si (representado por um "^") e
+uma mensagem de status opcional.
+
+A função runInteractiveMenu é a função principal que executa o loop de interação com o usuário. Ela
+escuta as entradas do teclado para mover o cursor para a esquerda (tecla 'a' ou 'A') ou para a direita
+(tecla 'd' ou 'D'), e para confirmar a seleção (tecla Enter). O loop continua até que o usuário confirme
+a seleção, momento em que a função retorna a posição final selecionada.
+*/
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
@@ -18,6 +40,10 @@ struct KeyboardState {
 };
 
 void initKeyboard(
+    /*
+    Inicializa o estado do teclado com os valores fornecidos, garantindo que a posição inicial esteja 
+    dentro dos limites definidos.
+    */
     KeyboardState& kb, 
     int min_val, 
     int max_val, 
@@ -31,15 +57,16 @@ void initKeyboard(
     kb.visual_stride = stride;
     kb.visual_offset = offset;
 
-    if (kb.position < kb.min_pos) {
-        kb.position = kb.min_pos;
-    }
-    if (kb.position > kb.max_pos) {
-        kb.position = kb.max_pos;
-    }
+    if (kb.position < kb.min_pos) { kb.position = kb.min_pos;}
+    if (kb.position > kb.max_pos) {kb.position = kb.max_pos;}
 }
 
 void drawConsole(
+    /*
+    Desenha o console, incluindo o mapa visual das cartas, uma linha de pontos para separar o 
+    mapa do cursor, e uma mensagem de status opcional. O cursor é representado por um "^" e é 
+    posicionado de acordo com o estado do teclado.
+    */
     const KeyboardState& kb, 
     const Tabuleiro& visual_map, 
     const string& statusMessage = ""
@@ -68,6 +95,12 @@ void drawConsole(
 }
 
 int runInteractiveMenu(
+    /*
+    Executa o loop de interação com o usuário, escutando as entradas do teclado para mover o cursor 
+    para a esquerda (tecla 'a' ou 'A') ou para a direita (tecla 'd' ou 'D'), e para confirmar a seleção
+    (tecla Enter). O loop continua até que o usuário confirme a seleção, momento em que a função retorna
+    a posição final selecionada.
+    */
     KeyboardState &kb, 
     const Tabuleiro &visual_map, 
     const string &statusMessage = ""

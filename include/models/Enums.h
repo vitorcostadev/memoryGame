@@ -1,3 +1,13 @@
+/*
+ENUMS_H
+
+Nesta header, estão definidos todos os enums
+utilizados no projeto, como os nomes das cartas, os tipos de cartas e os estados das cartas.
+
+CardName -> Enum que armazena os nomes das cartas.
+Type -> Enum que armazena os tipos de cartas.
+State -> Enum que armazena os estados das cartas.
+*/
 #ifndef ENUMS_H
 #define ENUMS_H
 

@@ -1,5 +1,26 @@
+/*
+GAME_H
+
+Nesta header estão definidas todas as estruturas e
+subrotinas relacionadas ao jogo.
+
+struct Game -> Armazena os dados do jogo, incluindo os jogadores, o número de rodadas e o 
+tabuleiro de cartas.
+
+getEmoji(CardName name) -> Retorna o emoji correspondente ao nome da carta.
+generateMapEmoji(const Tabuleiro &tab, int cols = 5) -> Gera uma representação em string do tabuleiro 
+de cartas usando emojis, organizados em colunas.
+isPair(Card c1, Card c2) -> Verifica se duas cartas formam um par.
+start(Game &game) -> Inicializa o jogo, configurando os jogadores e o tabuleiro.
+createEffect(Card card) -> Cria uma definição de efeito com base na carta fornecida.
+removeFirstPenalty(Player &player) -> Remove a primeira penalidade ativa do inventário do jogador.
+applyEffect(Player &player, EffectDef eff) -> Aplica um efeito ao jogador, adicionando-o ao inventário do mesmo.
+processEffects(Player &player) -> Processa os efeitos ativos do jogador, atualizando suas durações e removendo os que expiraram.
+hasActiveEffect(Player &player, EffectType type) -> Verifica se o jogador possui um efeito ativo do tipo especificado e 
+retorna seu índice, ou -1 se não encontrado.
+*/
 #ifndef Game_H
-#define Game_H 
+#define Game_H
 #define CARDS_COUNT 20
 #define MAX_ROUNDS 30
 
@@ -17,24 +38,32 @@ struct Game{
 
 
 string getEmoji(CardName name){
+    /*
+    Retorna o emoji baseado no
+    nome da carta.
+    */
     switch(name){
-        case APPLE: return "\xF0\x9F\x8D\x8E";      
-        case UNIVERSITY: return "\xF0\x9F\x8F\xAB"; 
-        case STAR: return "\xE2\xAD\x90";           
-        case CLOCK: return "\xE2\x8F\xB0";          
-        case SKULL: return "\xF0\x9F\x92\x80";     
-        case BOOKS: return "\xF0\x9F\x93\x9A";      
-        case GAMING: return "\xF0\x9F\x8E\xAE";     
-        case DADO: return "\xF0\x9F\x8E\xB2";       
-        case KEY: return "\xF0\x9F\x94\x91";        
-        case RAIO: return "\xE2\x9A\xA1";           
-        case QUEBRA: return "\xF0\x9F\x92\xA5";     
-        case PROIBIDO: return "\xF0\x9F\x9A\xAB";   
+        case APPLE: return "\xF0\x9F\x8D\x8E";
+        case UNIVERSITY: return "\xF0\x9F\x8F\xAB";
+        case STAR: return "\xE2\xAD\x90";
+        case CLOCK: return "\xE2\x8F\xB0";
+        case SKULL: return "\xF0\x9F\x92\x80";
+        case BOOKS: return "\xF0\x9F\x93\x9A";
+        case GAMING: return "\xF0\x9F\x8E\xAE";
+        case DADO: return "\xF0\x9F\x8E\xB2";
+        case KEY: return "\xF0\x9F\x94\x91";
+        case RAIO: return "\xE2\x9A\xA1";
+        case QUEBRA: return "\xF0\x9F\x92\xA5";
+        case PROIBIDO: return "\xF0\x9F\x9A\xAB";
         default: return "?";
     }
 }
 
 string generateMapEmoji(const Tabuleiro &tab, int cols = 5){
+    /*
+    Constroi o menu dos emojis organizando em colunas que
+    por default, assume o valor 5.
+    */
     string emojiMap;
     Node<Card>* current = tab.start;
     int idx = 0;
@@ -53,11 +82,17 @@ string generateMapEmoji(const Tabuleiro &tab, int cols = 5){
 }
 
 bool isPair(Card c1, Card c2) {
-    return (c1.parIdentificador == c2.identificador || 
+    /*
+    Verifica se a carta 1 é igual a carta 2 ou vice-versa.
+    */
+    return (c1.parIdentificador == c2.identificador ||
             c2.parIdentificador == c1.identificador);
 }
 
 void start(Game &game) {
+    /*
+    Inicializa o jogo, configurando os jogadores e o tabuleiro.
+    */
     game.rodadas = 0;
     game.playerOne.points = 0;
     game.playerTwo.points = 0;
@@ -67,6 +102,11 @@ void start(Game &game) {
 }
 
 EffectDef createEffect(Card card){
+    /*
+    Cria um tipo de dado EffectDef (Definição de Efeito)
+    Baseado na carta passada como parametro
+    para no fim, retornar um EffectDef construído.
+    */
     EffectDef effect;
     switch (card.name){
         case CardName::PROIBIDO:
@@ -104,6 +144,10 @@ EffectDef createEffect(Card card){
 }
 
 void removeFirstPenalty(Player &player) {
+    /*
+    Removendo a primeira penalidade da lista
+    do player passado por referencia.
+    */
     Node<ActiveEffect>* current = player.effectInv.effects.start;
     int index = 0;
     while(current != NULL) {
@@ -116,11 +160,19 @@ void removeFirstPenalty(Player &player) {
         current = current->next;
         index++;
     }
-    cout << player.name << ": nenhuma penalidade ativa para remover.\n";
+    cout << player.name << ": nenhuma penalidade ativa para remover." << endl;
 }
 
 void applyEffect(Player &player, EffectDef eff){
+    /*
+    Aplica um efeito ao jogador, adicionando-o ao inventário do mesmo.
+    */
     if(eff.type == EFFECT_REMOVE_PENALTY) {
+        /*
+        Se o tipo do efeito é remover penalidade
+        nesse caso, é só remover a primeira penalidade
+        ativa (remove apenas uma, e nao todas)
+        */
         removeFirstPenalty(player);
         return;
     }
@@ -128,12 +180,20 @@ void applyEffect(Player &player, EffectDef eff){
     ActiveEffect active;
     active.definition = eff;
     active.rmDuration = eff.duration;
-
+    /*
+    E se caso passar pelos checks, cria um tipo de dado
+    ActiveEffect e adiciona no inventario do player.
+    */
     add(player.effectInv.effects, active,
         player.effectInv.effects.cardinalidade);
 }
 
 bool processEffects(Player &player) {
+    /*
+    Processa os efeitos que estão ativos no inventário do player, atualizando suas durações
+    e removendo os que expiraram. Retorna um booleano indicando se o jogador pode jogar ou não,
+    baseado na presença de efeitos do tipo skip turn.
+    */
     bool canPlay = true;
     int i = 0;
     Node<ActiveEffect>* node = player.effectInv.effects.start;
@@ -142,13 +202,21 @@ bool processEffects(Player &player) {
         Node<ActiveEffect>* next = node->next;
 
         if(node->element.definition.type == EFFECT_SKIP_TURN)
+            /*
+            Se o tipo do efeito for skip turn, simplesmente atualiza
+            a variavel canPlay para false para depois retornar.
+            */
             canPlay = false;
 
         node->element.rmDuration--;
 
         if(node->element.rmDuration <= 0) {
+                /*
+                Se a duração chegou a zero, o efeito expirou e
+                deve ser removido da lista de efeitos ativos.
+                */
             cout << player.name << ": efeito expirou: "
-                 << node->element.definition.name << "\n";
+                 << node->element.definition.name << endl;
             remove(player.effectInv.effects, i);
         } else {
             i++;
@@ -161,17 +229,21 @@ bool processEffects(Player &player) {
 }
 
 int hasActiveEffect(Player &player, EffectType type) {
+    /*
+    Retorna o indice de onde está presente o efeito
+    a ser buscado, e caso o mesmo não exista, retorna -1.
+    */
     Node<ActiveEffect>* current = player.effectInv.effects.start;
     int index = 0;
-    
+
     while(current != NULL) {
         if(current->element.definition.type == type) {
-            return index;  
+            return index;
         }
         current = current->next;
         index++;
     }
-    return -1;  
+    return -1;
 }
 
-#endif 
+#endif

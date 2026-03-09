@@ -1,3 +1,15 @@
+/*
+CARD_H
+
+Nesta header, definimos a estrutura Card, que representa a carta no jogo
+a estrutura Inventory, que representa o inventário de efeitos ativos do player
+e a lista Tabuleiro, que representa o tabuleiro do jogo.
+
+createTabuleiro(Tabuleiro &tab) -> Cria o tabuleiro do jogo, embaralhando as cartas.
+setCardState(Card &card, State state) -> Altera o estado da carta.
+getCardType(Card card) -> Retorna o tipo da carta.
+
+*/
 #ifndef CARD_H
 #define CARD_H
 #include "Enums.h"
@@ -47,6 +59,9 @@ Card arr[20] = {
 };
 
 void createTabuleiro(Tabuleiro &tab){
+    /*
+    Cria o tabuleiro do jogo, embaralhando as cartas e adicionando-as à lista duplamente encadeada.
+    */
     create(tab);
 
     Card deck[CARDS_COUNT];
@@ -74,4 +89,12 @@ void createTabuleiro(Tabuleiro &tab){
     }
 }
 
-#endif 
+void setCardState(Card &card, State state)
+{
+    if(state != card.state)  card.state = state;
+}
+
+Type getCardType(Card card) { return card.type; }
+
+
+#endif

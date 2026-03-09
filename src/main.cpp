@@ -1,20 +1,46 @@
+/*
+Nomes: Vitor Kawã Pedrosa Da Costa, Fernando Nunes Francisco e Arthur Abreu
+
+Bibliotecas usadas:
+
+conio.h: Para captura de entrada do teclado sem necessidade de pressionar Enter.
+windows.h: Para manipulação do console, como limpar a tela e configurar a codificação de caracteres.
+
+Estrutura do projeto:
+
+include/
+    models/
+        Card.h: Define a estrutura de uma carta, incluindo seu nome, tipo, estado e identificadores.
+        Enums.h: Define os enums usados no jogo, como CardName, Type e State.
+        Player.h: Define a estrutura de um jogador, incluindo seus pontos, nome e inventário de efeitos.
+    interfaces/
+        DoubleLinkedList.h: Implementação de uma lista duplamente ligada genérica.
+        Game.h: Define a estrutura do jogo e as funções para iniciar o jogo e processar os efeitos dos jogadores.
+        Keyboard.h: Define a estrutura do estado do teclado e as funções para inicializar o teclado e desenhar o console.
+    src/
+        main.cpp: Contém a função principal do jogo, onde a lógica do jogo é implementada, incluindo a interação com o usuário e o fluxo do jogo.
+
+Referencias para implementação:
+
+- https://cplusplus.com/ : Para consulta de sintaxe e funcionalidades da linguagem C++.
+- Editores de codigo utilizados: VsCode & CodeBlocks
+*/
 #include <iostream>
 #include <windows.h>
-#include <conio.h>
 #include "../include/interfaces/Game.h"
 #include "../include/interfaces/Keyboard.h"
 
 using namespace std;
 
-string getPlayerName(int playerNum) {
-    string name;
+void getPlayerName(Player &player, int playerNum) {
+    string name;    
     cout << "Digite o nome do jogador " << playerNum << ": ";
     getline(cin, name);
     while(name.empty()) {
         cout << "O nome do jogador não pode ficar vazio!\nDigite novamente o nome do jogador " << playerNum << ": ";
         getline(cin, name);
     }
-    return name;
+    setPlayerName(player, name);
 }
 
 int main() {
@@ -25,13 +51,13 @@ int main() {
 
     start(game);
 
-    game.playerOne.name = getPlayerName(1);
-    game.playerTwo.name = getPlayerName(2);
+    getPlayerName(game.playerOne, 1);
+    getPlayerName(game.playerTwo, 2);
 
     initKeyboard(keyboardState, 0, size(game.cards) - 1, 0, 2, 2);
 
     cout << "Bem-vindo ao jogo da memória!\n";
-    cout << game.playerOne.name << " vs " << game.playerTwo.name << "\n";
+    cout << getPlayerName(game.playerOne) << " vs " << getPlayerName(game.playerTwo)  << endl;
     cout << "Total de cartas: " << size(game.cards) << "\n";
     cout << "Pressione uma tecla para começar...\n";
     cin.get();
@@ -73,12 +99,12 @@ int main() {
         }
 
         if(node1 == NULL) {
-            cout << "Erro ao selecionar carta 1!\n";
+            cout << "Erro ao selecionar carta" << endl;
             cin.get();
             continue;
         }
 
-        node1->element.state = State::VIRADA;
+        setCardState(node1->element, State::VIRADA);
         drawConsole(keyboardState, game.cards, status);
 
         int pos2 = -1;
@@ -109,7 +135,7 @@ int main() {
         if(isPair(node1->element, node2->element)) {
             cout << "PAR ENCONTRADO!\n";
 
-            playerAtual == 1 ? game.playerOne.points += 10 : game.playerTwo.points += 10;
+            playerAtual == 1 ? addPoints(game.playerOne, 10) : addPoints(game.playerTwo, 10);
 
             if(pos1 > pos2) {
                 remove(game.cards, pos1);
@@ -129,14 +155,14 @@ int main() {
         } else {
             cout << "Par não encontrado!\n";
 
-            node1->element.state = State::OCULTA;
-            node2->element.state = State::OCULTA;
+            setCardState(node1->element, State::OCULTA);
+            setCardState(node2->element, State::OCULTA);
 
             bool card1Removed = false;
-            if(node1->element.type == Type::BONUS || node1->element.type == Type::PENALIDADE) {
+            if(getCardType(node1->element) == Type::BONUS || getCardType(node1->element) == Type::PENALIDADE) {
                 EffectDef effect = createEffect(node1->element);
                 if(!effect.name.empty())
-                    cout << "Efeito ativado: " << effect.name << "\n";
+                    cout << "Efeito ativado: " << effect.name << endl;
                 applyEffect(*jogadorAtual, effect);
                 remove(game.cards, pos1);
                 card1Removed = true;
@@ -145,7 +171,7 @@ int main() {
             if(node2->element.type == Type::BONUS || node2->element.type == Type::PENALIDADE) {
                 EffectDef effect = createEffect(node2->element);
                 if(!effect.name.empty())
-                    cout << "Efeito ativado: " << effect.name << "\n";
+                    cout << "Efeito ativado: " << effect.name << endl;
                 applyEffect(*jogadorAtual, effect);
 
                 int adjustedPos2 = (card1Removed && pos1 < pos2) ? pos2 - 1 : pos2;
@@ -182,13 +208,13 @@ int main() {
     }
 
     cout << "Resultado Final:\n";
-    cout << game.playerOne.name << ": " << game.playerOne.points << " pontos\n";
-    cout << game.playerTwo.name << ": " << game.playerTwo.points << " pontos\n\n";
+    cout << game.playerOne.name << ": " << getPlayerPoints(game.playerOne) << " pontos\n";
+    cout << game.playerTwo.name << ": " << getPlayerPoints(game.playerTwo) << " pontos\n\n";
 
-    if(game.playerOne.points > game.playerTwo.points) {
-        cout << "Vencedor: " << game.playerOne.name << "!\n";
-    } else if(game.playerTwo.points > game.playerOne.points) {
-        cout << "Vencedor: " << game.playerTwo.name << "!\n";
+    if(getPlayerPoints(game.playerOne) > getPlayerPoints(game.playerTwo)) {
+        cout << "Vencedor: " << getPlayerName(game.playerOne) << "!\n";
+    } else if(getPlayerPoints(game.playerTwo) > getPlayerPoints(game.playerOne)) {
+        cout << "Vencedor: " << getPlayerName(game.playerTwo) << "!\n";
     } else {
         cout << "Empate!\n";
     }
