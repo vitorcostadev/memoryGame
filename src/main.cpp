@@ -27,7 +27,7 @@ Referencias para implementação:
 
 Observações:
 
-Utilize o Windows Terminal (se o windows for o 10) para conseguir visualizar os emojis corretamente, 
+Utilize o Windows Terminal (se o windows for o 10) para conseguir visualizar os emojis corretamente,
 e certifique-se de que a fonte utilizada seja compatível com emojis.
 */
 #include <iostream>
@@ -82,7 +82,11 @@ int main()
         {
             roundLimitReached = true;
             break;
-        }
+        }else if(getPlayerPoints(game.playerOne) >= POINTS_TO_WIN ||
+                 getPlayerPoints(game.playerTwo) >= POINTS_TO_WIN)
+                 {
+                     break;
+                 }
 
         bool canPlay = processEffects(*jogadorAtual);
 
@@ -96,7 +100,7 @@ int main()
 
         if(!canPlay)
         {
-            cout << getPlayerName(*jogadorAtual) << " não pode jogar neste turno!\n";
+            cout << getPlayerName(*jogadorAtual) << " não pode jogar neste turno!" << endl;
             cout << "Pressione uma tecla para continuar...\n";
             cin.get();
             playerAtual = (playerAtual == 1) ? 2 : 1;
@@ -111,7 +115,11 @@ int main()
             Node<Card>* it = game.cards.start;
             while(it != NULL)
             {
-                if(it->element.state == State::OCULTA) { cnt++; if(rand() % cnt == 0) peekNode = it; }
+                if(it->element.state == State::OCULTA)
+                {
+                    cnt++;
+                    if(rand() % cnt == 0) peekNode = it;
+                }
                 it = it->next;
             }
             if(peekNode != NULL)
@@ -144,8 +152,11 @@ int main()
             while(ea1 != NULL)
             {
                 if(ea1->element.definition.type == EFFECT_CARD_BLOCK &&
-                   ea1->element.definition.targetCardId == node1->element.identificador)
-                { blockedPos1 = true; break; }
+                        ea1->element.definition.targetCardId == node1->element.identificador)
+                {
+                    blockedPos1 = true;
+                    break;
+                }
                 ea1 = ea1->next;
             }
             if(blockedPos1)
@@ -201,8 +212,11 @@ int main()
             while(ea2 != NULL)
             {
                 if(ea2->element.definition.type == EFFECT_CARD_BLOCK &&
-                   ea2->element.definition.targetCardId == node2->element.identificador)
-                { blockedPos2 = true; break; }
+                        ea2->element.definition.targetCardId == node2->element.identificador)
+                {
+                    blockedPos2 = true;
+                    break;
+                }
                 ea2 = ea2->next;
             }
             if(blockedPos2)
@@ -262,8 +276,11 @@ int main()
                     while(it != NULL)
                     {
                         if(it->element.state == State::OCULTA &&
-                           it->element.identificador != node1->element.identificador)
-                        { cnt++; if(rand() % cnt == 0) effect.targetCardId = it->element.identificador; }
+                                it->element.identificador != node1->element.identificador)
+                        {
+                            cnt++;
+                            if(rand() % cnt == 0) effect.targetCardId = it->element.identificador;
+                        }
                         it = it->next;
                     }
                 }
@@ -286,8 +303,11 @@ int main()
                     while(it != NULL)
                     {
                         if(it->element.state == State::OCULTA &&
-                           it->element.identificador != node2->element.identificador)
-                        { cnt++; if(rand() % cnt == 0) effect.targetCardId = it->element.identificador; }
+                                it->element.identificador != node2->element.identificador)
+                        {
+                            cnt++;
+                            if(rand() % cnt == 0) effect.targetCardId = it->element.identificador;
+                        }
                         it = it->next;
                     }
                 }
@@ -326,7 +346,7 @@ int main()
         cout << "╔════════════════════════════════════╗\n";
         cout << "║   LIMITE DE JOGADAS ATINGIDO!      ║\n";
         cout << "╚════════════════════════════════════╝\n\n";
-        cout << "Rodadas esgotadas! Nenhum jogador encontrou todos os pares.\n\n";
+        cout << "Limite de rodadas atingido! Nenhum jogador encontrou todos os pares.\n\n";
     }
     else
     {
@@ -335,7 +355,7 @@ int main()
         cout << "╚════════════════════════════════════╝\n\n";
     }
 
-    cout << "Resultado Final:\n";
+    cout << "Resultado Final:" << endl;
     cout << getPlayerName(game.playerOne) << ": " << getPlayerPoints(game.playerOne) << " pontos" << endl;
     cout << getPlayerName(game.playerTwo) << ": " << getPlayerPoints(game.playerTwo) << " pontos\n\n";
 
