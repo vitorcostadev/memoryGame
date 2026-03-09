@@ -6,4 +6,3 @@ build/
 *.o
 *.a
 *.out
-*.depend

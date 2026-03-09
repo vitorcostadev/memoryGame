@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1772843021 source:c:\users\yori0\onedrive\Área de trabalho\memory\src\main.cpp
+	<iostream>
+	<windows.h>
+	<conio.h>
+	"../include/interfaces/Game.h"
+	"../include/interfaces/Keyboard.h"
+
+1772842990 c:\users\yori0\onedrive\Área de trabalho\memory\include\interfaces\game.h
+	<iostream>
+	<string>
+	"DoubleLinkedList.h"
+	"../models/Card.h"
+	"../models/Player.h"
+
+1772842990 c:\users\yori0\onedrive\Área de trabalho\memory\include\interfaces\doublelinkedlist.h
+
+1772842990 c:\users\yori0\onedrive\Área de trabalho\memory\include\models\card.h
+	"Enums.h"
+	"../interfaces/DoubleLinkedList.h"
+	"Effect.h"
+	<cstdlib>
+	<ctime>
+
+1772331379 c:\users\yori0\onedrive\Área de trabalho\memory\include\models\enums.h
+
+1772840639 c:\users\yori0\onedrive\Área de trabalho\memory\include\models\effect.h
+	<string>
+	"../interfaces/DoubleLinkedList.h"
+
+1772840639 c:\users\yori0\onedrive\Área de trabalho\memory\include\models\player.h
+	<string>
+	"Card.h"
+
+1772842990 c:\users\yori0\onedrive\Área de trabalho\memory\include\interfaces\keyboard.h
+	<cstdlib>
+	<conio.h>
+	<iostream>
+	<string>
+	"Game.h"
+
