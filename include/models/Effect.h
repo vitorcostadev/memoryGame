@@ -15,19 +15,26 @@ As subrotinas estão implementados em Game.h
 
 using namespace std;
 
-enum EffectType{
+enum EffectType
+{
     EFFECT_EXTRA_TURN,
     EFFECT_SKIP_TURN,
-    EFFECT_REMOVE_PENALTY
+    EFFECT_REMOVE_PENALTY,
+    EFFECT_LIMIT_VISION,
+    EFFECT_CARD_BLOCK,
+    EFFECT_EXTRA_TIME
 };
 
-struct EffectDef{
+struct EffectDef
+{
     EffectType type;
     int duration;
+    int targetCardId = 0;
     string name, description;
 };
 
-struct ActiveEffect{
+struct ActiveEffect
+{
     EffectDef definition;
     int rmDuration;
 };

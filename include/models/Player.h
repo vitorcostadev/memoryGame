@@ -13,7 +13,8 @@ struct Player -> Armazena os pontos, nomes e o inventário de efeitos.
 #include <string>
 #include "Card.h"
 
-struct Player {
+struct Player
+{
     int points;
     string name;
     Inventory effectInv;
@@ -26,9 +27,15 @@ void addPoints(Player &player, int points)
     player.points += points;
 }
 
-int getPlayerPoints(Player player) { return player.points; }
+int getPlayerPoints(Player player)
+{
+    return player.points;
+}
 
-string getPlayerName(Player player) { return player.name; }
+string getPlayerName(Player player)
+{
+    return player.name;
+}
 
 void setPlayerName(Player &player, string name)
 {

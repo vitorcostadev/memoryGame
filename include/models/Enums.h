@@ -11,7 +11,8 @@ State -> Enum que armazena os estados das cartas.
 #ifndef ENUMS_H
 #define ENUMS_H
 
-enum CardName : unsigned char {
+enum CardName : unsigned char
+{
     APPLE = 0,
     UNIVERSITY = 1,
     STAR = 2,
@@ -28,19 +29,24 @@ enum CardName : unsigned char {
     MUSIC = 13,
     HEART = 14,
     CROWN = 15,
-    FISH = 16
+    FISH = 16,
+    FOG = 17,
+    LOCK = 18,
+    HOURGLASS = 19
 };
 
-enum Type{
+enum Type
+{
     NORMAL,
     BONUS,
     PENALIDADE
 };
 
-enum State{
+enum State
+{
     VIRADA,
     OCULTA
 };
 
 
-#endif 
+#endif

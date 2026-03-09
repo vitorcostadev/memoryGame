@@ -19,7 +19,8 @@ getCardType(Card card) -> Retorna o tipo da carta.
 #include <ctime>
 
 
-struct Card {
+struct Card
+{
     CardName name;
     short identificador;
     State state;
@@ -28,14 +29,16 @@ struct Card {
 };
 
 
-struct Inventory {
+struct Inventory
+{
     DoublyLinkedList<ActiveEffect> effects;
 };
 
 typedef DoublyLinkedList<Card> Tabuleiro;
 
 
-Card arr[30] = {
+Card arr[33] =
+{
     {CardName::APPLE, 1, State::OCULTA, Type::NORMAL, 7},
     {CardName::UNIVERSITY, 2, State::OCULTA, Type::NORMAL, 10},
     {CardName::STAR, 3, State::OCULTA, Type::BONUS, 13},
@@ -65,10 +68,14 @@ Card arr[30] = {
     {CardName::CROWN, 27, State::OCULTA, Type::NORMAL, 28},
     {CardName::CROWN, 28, State::OCULTA, Type::NORMAL, 27},
     {CardName::FISH, 29, State::OCULTA, Type::NORMAL, 30},
-    {CardName::FISH, 30, State::OCULTA, Type::NORMAL, 29}
+    {CardName::FISH, 30, State::OCULTA, Type::NORMAL, 29},
+    {CardName::FOG, 31, State::OCULTA, Type::PENALIDADE, 0},
+    {CardName::LOCK, 32, State::OCULTA, Type::PENALIDADE, 0},
+    {CardName::HOURGLASS, 33, State::OCULTA, Type::BONUS, 0}
 };
 
-void createTabuleiro(Tabuleiro &tab){
+void createTabuleiro(Tabuleiro &tab)
+{
     /*
     Cria o tabuleiro do jogo, embaralhando as cartas e adicionando-as à lista duplamente encadeada.
     */
@@ -78,19 +85,24 @@ void createTabuleiro(Tabuleiro &tab){
     for(int i = 0; i < CARDS_COUNT; i++) deck[i] = arr[i];
 
     srand((unsigned int)time(NULL));
-    for(int i = CARDS_COUNT - 1; i > 0; i--) {
+    for(int i = CARDS_COUNT - 1; i > 0; i--)
+    {
         int j = rand() % (i + 1);
         Card temp = deck[i];
         deck[i] = deck[j];
         deck[j] = temp;
     }
 
-    for(int i = 0; i < CARDS_COUNT; i++){
-        Node<Card>* newNode = new Node<Card>{deck[i], NULL, NULL};
-        if(tab.start == NULL){
+    for(int i = 0; i < CARDS_COUNT; i++)
+    {
+        Node<Card>* newNode = new Node<Card> {deck[i], NULL, NULL};
+        if(tab.start == NULL)
+        {
             tab.start = newNode;
             tab.end = newNode;
-        } else {
+        }
+        else
+        {
             tab.end->next = newNode;
             newNode->previous = tab.end;
             tab.end = newNode;
@@ -104,7 +116,10 @@ void setCardState(Card &card, State state)
     if(state != card.state)  card.state = state;
 }
 
-Type getCardType(Card card) { return card.type; }
+Type getCardType(Card card)
+{
+    return card.type;
+}
 
 
 #endif
